@@ -1,5 +1,6 @@
-const nodemailer = require("nodemailer");
-require("dotenv").config();
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -29,4 +30,4 @@ const sendEmail = async (req, res) => {
   }
 };
 
-module.exports = { sendEmail };
+export { sendEmail };  // Export sendEmail function

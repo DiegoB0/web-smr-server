@@ -1,9 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-const serverless = require("serverless-http");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import emailRoutes from "./routes/email.route.js";
 
-const emailRoutes = require("./routes/email.route");
+dotenv.config();
 
 const app = express();
 
@@ -22,4 +22,4 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-module.exports.handler = serverless(app);
+export default app;
