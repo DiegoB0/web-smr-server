@@ -13,14 +13,26 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (req, res) => {
-  const { to, subject, message } = req.body;
+  const { nombre, email, telefono, mensaje } = req.body;
+
+  const to = process.env.SMTP_USER;
+  const subject = `Nuevo mensaje de ${nombre}`;
+  const htmlContent = `
+    <h2>Nuevo mensaje de contacto</h2>
+    <p><strong>Nombre:</strong> ${nombre}</p>
+    <p><strong>Correo electrónico:</strong> ${email}</p>
+    <p><strong>Teléfono:</strong> ${telefono ? telefono : "No proporcionado"}</p>
+    <p><strong>Mensaje:</strong></p>
+    <p>${mensaje}</p>
+  `;
 
   try {
     const info = await transporter.sendMail({
       from: `"SMR HeavyMaq" <${process.env.SMTP_USER}>`,
       to,
       subject,
-      html: `<p>${message}</p>`,
+      html: htmlContent,
+      replyTo: email
     });
 
     res.status(200).json({ success: true, message: "Email sent!", info });
@@ -30,4 +42,4 @@ const sendEmail = async (req, res) => {
   }
 };
 
-export { sendEmail };  // Export sendEmail function
+export { sendEmail };
